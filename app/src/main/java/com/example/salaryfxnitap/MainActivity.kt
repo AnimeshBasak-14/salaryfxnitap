@@ -49,7 +49,8 @@ class MainActivity : AppCompatActivity() {
             monthRecyclerView.adapter = monthAdapter
             val employeeId = mainBinding.editTextEmployeeId.text.toString()
             val selectedMonth = monthAdapter.getSelectedMonth()
-
+            val
+            x = 657
             // Show progress bar while processing
             mainBinding.progressBar.visibility = View.VISIBLE
 
