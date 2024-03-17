@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         val generateButton: Button = findViewById(R.id.buttonGenerateSalarySlip)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        databaseReference = FirebaseDatabase.getInstance().reference.child("users")
+//        databaseReference = FirebaseDatabase.getInstance().reference.child("users")
 
         mainBinding.progressBar.visibility = View.INVISIBLE
 
@@ -40,71 +40,79 @@ class MainActivity : AppCompatActivity() {
             finish()
         }
 
+
+        val employeeId = mainBinding.editTextEmployeeId.text.toString()
+
+        val spinner: Spinner = findViewById(R.id.month_spinner)
+        // Create an ArrayAdapter using the string array and a default spinner layout.
+        ArrayAdapter.createFromResource(
+            this,
+            R.array.months_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears.
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner.
+            spinner.adapter = adapter
         mainBinding.buttonGenerateSalarySlip.setOnClickListener {
 
-            // Set up Month RecyclerView
-            val monthRecyclerView: RecyclerView = findViewById(R.id.monthsRecyclerView)
-            val monthAdapter = MonthAdapter(getMonthList())
-            monthRecyclerView.layoutManager = LinearLayoutManager(this)
-            monthRecyclerView.adapter = monthAdapter
-            val employeeId = mainBinding.editTextEmployeeId.text.toString()
-            val selectedMonth = monthAdapter.getSelectedMonth()
-            val
-            x = 666
-            // Show progress bar while processing
-            mainBinding.progressBar.visibility = View.VISIBLE
 
-            generateSalarySlip()
-            // Check if the user exists in the database
-//            checkUserExistence(employeeId, selectedMonth)
+
+
+
+                generateSalarySlip()
+
+                // Check if the user exists in the database
+//                val selectedMonth = spinner.selectedItem.toString() // Get the selected month
+//                checkUserExistence(employeeId, selectedMonth)
+
+            }
+
         }
     }
 
 
+        private fun checkUserExistence(employeeId: String, selectedMonth: String) {
+            databaseReference.child(employeeId)
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (snapshot.exists()) {
+                            // User exists in the database, generate salary slip
+                            generateSalarySlip()
+                        } else {
+                            // User does not exist, show toast
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Employee not found",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
-    private fun getMonthList(): List<String> {
-        return listOf(
-            "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
-        )
+                            // Hide progress bar
+                            mainBinding.progressBar.visibility = View.INVISIBLE
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        // Handle database error if any
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Database error: ${error.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        // Hide progress bar
+                        mainBinding.progressBar.visibility = View.INVISIBLE
+                    }
+                })
+        }
+
+        private fun generateSalarySlip() {
+            // Here you can implement the logic to generate the salary slip
+            // For demonstration purposes, let's navigate to the SalarySlip activity
+            val intent = Intent(this, SalarySlip::class.java)
+            startActivity(intent)
+
+            // Hide progress bar after navigating
+            mainBinding.progressBar.visibility = View.INVISIBLE
+        }
     }
-
-
-
-
-
-    private fun checkUserExistence(employeeId: String, selectedMonth: String) {
-        databaseReference.child(employeeId).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()) {
-                    // User exists in the database, generate salary slip
-                    generateSalarySlip()
-                } else {
-                    // User does not exist, show toast
-                    Toast.makeText(this@MainActivity, "Employee not found", Toast.LENGTH_SHORT).show()
-
-                    // Hide progress bar
-                    mainBinding.progressBar.visibility = View.INVISIBLE
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Handle database error if any
-                Toast.makeText(this@MainActivity, "Database error: ${error.message}", Toast.LENGTH_SHORT).show()
-
-                // Hide progress bar
-                mainBinding.progressBar.visibility = View.INVISIBLE
-            }
-        })
-    }
-
-    private fun generateSalarySlip() {
-        // Here you can implement the logic to generate the salary slip
-        // For demonstration purposes, let's navigate to the SalarySlip activity
-        val intent = Intent(this, SalarySlip::class.java)
-        startActivity(intent)
-
-        // Hide progress bar after navigating
-        mainBinding.progressBar.visibility = View.INVISIBLE
-    }
-}

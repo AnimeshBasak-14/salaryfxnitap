@@ -4,4 +4,19 @@
     <string name="forgotpassword"><u>Forgot  my Password</u></string>
     <string name="account">Don\t you have an account yet?<font color="#5b39c6"><b><u><i>Sign up</i></u></b></font></string>
     <string name="month_prompt">Month</string>
+    <string-array name="months_array">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+    <string name="spinner" />
 </resources>

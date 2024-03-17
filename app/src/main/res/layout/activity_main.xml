@@ -7,58 +7,63 @@
     android:background="#4ACDDC39"
     tools:context=".MainActivity">
 
+    <!-- "Month" RecyclerView -->
+
+    <!-- Existing buttons and notice TextView -->
+
     <TextView
         android:id="@+id/textViewMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="88dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:text="Month:"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/monthsRecyclerView"
+        app:layout_constraintEnd_toStartOf="@+id/planets_spinner"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- "Month" RecyclerView -->
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/monthsRecyclerView"
-        android:layout_width="181dp"
-        android:layout_height="27dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="44dp"
-        android:background="#fff999"
+    <Spinner
+        android:id="@+id/month_spinner"
+        android:layout_width="227dp"
+        android:layout_height="61dp"
+        android:spinnerMode="dialog"
+        app:layout_constraintBottom_toTopOf="@+id/editTextEmployeeId"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textViewEmployeeId"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.896"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.7" />
 
     <TextView
         android:id="@+id/textViewEmployeeId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="20dp"
         android:text="Employee ID:"
         android:textSize="20sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/buttonGenerateSalarySlip"
+        app:layout_constraintEnd_toStartOf="@+id/editTextEmployeeId"
+        app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMonth" />
-
-    <!-- Existing buttons and notice TextView -->
+        app:layout_constraintTop_toBottomOf="@+id/textViewMonth"
+        app:layout_constraintVertical_bias="0.275" />
 
     <EditText
         android:id="@+id/editTextEmployeeId"
         android:layout_width="224dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:hint="Enter Employee ID"
         android:inputType="text"
         android:minHeight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textViewEmployeeId"
-        app:layout_constraintTop_toBottomOf="@+id/monthsRecyclerView" />
+        app:layout_constraintHorizontal_bias="0.898"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.206" />
 
     <Button
         android:id="@+id/buttonGenerateSalarySlip"
