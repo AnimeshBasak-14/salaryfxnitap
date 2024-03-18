@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val employeeId = mainBinding.editTextEmployeeId.text.toString().toLong()
+        val employeeId = mainBinding.editTextEmployeeId.text.toString()
 
         val spinner: Spinner = findViewById(R.id.month_spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout.
@@ -53,9 +53,6 @@ class MainActivity : AppCompatActivity() {
         mainBinding.buttonGenerateSalarySlip.setOnClickListener {
 
 
-
-
-
                 generateSalarySlip(employeeId,selectedMonth)
 
                 // Check if the user exists in the database
@@ -68,48 +65,27 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-        private fun checkUserExistence(employeeId: String, selectedMonth: String) {
-            mDatabase = FirebaseDatabase
-                .getInstance()
-                .getReference("17m2SXM94KhBDJ3tdHR3lI4HLOZK6CjHQgzg8Zq_gX9Q")
-                .child("Sheet1")
-
-            mDatabase.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                        if (snapshot.child("EID").getValue(Long::class.java) == employeeId.toLong() &&
-                            snapshot.child("PaySlipMonth").getValue(String::class.java) == selectedMonth  ) {
-                            // User exists in the database, generate salary slip
-                            generateSalarySlip(employeeId.toLong(), selectedMonth)
-                        } else {
-                            // User does not exist, show toast
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Employee not found",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                            // Hide progress bar
-                            mainBinding.progressBar.visibility = View.INVISIBLE
-                        }
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        // Handle database error if any
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Database error: ${error.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        // Hide progress bar
-                        mainBinding.progressBar.visibility = View.INVISIBLE
-                    }
-                })
-        }
-
-    private fun generateSalarySlip(employeeId: Long, selectedMonth: String) {
+    private fun generateSalarySlip(employeeId: String, selectedMonth: String) {
         // Here you can implement the logic to generate the salary slip
         // For demonstration purposes, let's navigate to the SalarySlip activity
+
+        if (selectedMonth != null && employeeId != null) {
+            Toast.makeText(
+                this@MainActivity,
+                "Found: ${employeeId +" "+ selectedMonth}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        else {
+            if (employeeId != null) {
+                Toast.makeText(
+                    this@MainActivity,
+                    "Not Found: ${if (employeeId.isEmpty()) "Employee ID is empty" else "Employee ID: $employeeId, Selected Month: $selectedMonth"}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
         val intent = Intent(this, SalarySlip::class.java).apply {
             putExtra("employeeId", employeeId)
             putExtra("selectedMonth", selectedMonth)
