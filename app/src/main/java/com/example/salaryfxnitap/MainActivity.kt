@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-        val employeeId = mainBinding.editTextEmployeeId.text.toString()
+        val editTextEmployeeId = findViewById<EditText>(R.id.editTextEmployeeId)
 
         val spinner: Spinner = findViewById(R.id.month_spinner)
         // Create an ArrayAdapter using the string array and a default spinner layout.
@@ -49,10 +50,14 @@ class MainActivity : AppCompatActivity() {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             // Apply the adapter to the spinner.
             spinner.adapter = adapter
-            val selectedMonth = spinner.selectedItem.toString()
+
+        }
+
+//        println(employeeId)
         mainBinding.buttonGenerateSalarySlip.setOnClickListener {
 
-
+            val selectedMonth = spinner.selectedItem.toString()
+            val employeeId = editTextEmployeeId.text.toString()
                 generateSalarySlip(employeeId,selectedMonth)
 
                 // Check if the user exists in the database
@@ -61,7 +66,7 @@ class MainActivity : AppCompatActivity() {
 
             }
 
-        }
+
     }
 
 
@@ -69,22 +74,14 @@ class MainActivity : AppCompatActivity() {
         // Here you can implement the logic to generate the salary slip
         // For demonstration purposes, let's navigate to the SalarySlip activity
 
-        if (selectedMonth != null && employeeId != null) {
+
             Toast.makeText(
                 this@MainActivity,
-                "Found: ${employeeId +" "+ selectedMonth}",
+                "Found: ${"$employeeId: $selectedMonth"}",
                 Toast.LENGTH_SHORT
             ).show()
-        }
-        else {
-            if (employeeId != null) {
-                Toast.makeText(
-                    this@MainActivity,
-                    "Not Found: ${if (employeeId.isEmpty()) "Employee ID is empty" else "Employee ID: $employeeId, Selected Month: $selectedMonth"}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+
+
 
         val intent = Intent(this, SalarySlip::class.java).apply {
             putExtra("employeeId", employeeId)

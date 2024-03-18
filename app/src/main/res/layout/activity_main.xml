@@ -7,9 +7,7 @@
     android:background="#4ACDDC39"
     tools:context=".MainActivity">
 
-    <!-- "Month" RecyclerView -->
 
-    <!-- Existing buttons and notice TextView -->
 
     <TextView
         android:id="@+id/textViewMonth"
@@ -20,7 +18,7 @@
         android:text="Month:"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/planets_spinner"
+        app:layout_constraintEnd_toStartOf="@+id/month_spinner"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -55,7 +53,7 @@
         android:id="@+id/editTextEmployeeId"
         android:layout_width="224dp"
         android:layout_height="wrap_content"
-        android:hint="Enter Employee ID"
+        android:hint="@string/enter_employee_id"
         android:inputType="text"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"

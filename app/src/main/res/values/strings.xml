@@ -19,4 +19,5 @@
         <item>December</item>
     </string-array>
     <string name="spinner" />
+    <string name="enter_employee_id">Enter Employee ID</string>
 </resources>
