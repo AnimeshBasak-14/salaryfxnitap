@@ -19,7 +19,6 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        val munu = "Happy"
 
         loginBinding.buttonsignin.setOnClickListener {
             val userEmail = loginBinding.editTextLoginEmail.text.toString()
