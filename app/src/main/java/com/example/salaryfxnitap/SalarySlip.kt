@@ -21,70 +21,20 @@ class SalarySlip : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_salary_slip)
+        val employeeId = intent.getLongExtra("employeeId", 0)
+        val selectedMonth = intent.getStringExtra("selectedMonth")
 
-//        recyclerView = findViewById(R.id.recyclerView)
-//        recyclerView.setHasFixedSize(true)
-//        recyclerView.layoutManager = LinearLayoutManager(this)
-//        val adapter = MyAdapter(salaryList)
-//        recyclerView.adapter = adapter
+        // Initialize Firebase Database
+        mDatabase = FirebaseDatabase.getInstance().reference
 
-        fetchSalaryData()
+        // Fetch salary data based on employee ID and month
+        if (selectedMonth != null) {
+            fetchSalaryData(employeeId, selectedMonth)
+        }
     }
 
-    private fun fetchSalaryData() {
-//        salaryDatabaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                if (snapshot.exists()) {
-//                    // Clear existing data before adding new data
-//                    salaryList.clear()
-//
-//                    // Add salary details to the list
-//                    for (childSnapshot in snapshot.children) {
-//                        val email = childSnapshot.key ?: ""
-//                        val basicPay = childSnapshot.child("basicPay").getValue(Double::class.java) ?: 0.0
-//                        val branch = childSnapshot.child("branch").getValue(String::class.java) ?: ""
-//                        val daArrear = childSnapshot.child("daArrear").getValue(Double::class.java) ?: 0.0
-//                        val employeeId = childSnapshot.child("employeeId").getValue(String::class.java) ?: ""
-//                        val employeeName = childSnapshot.child("employeeName").getValue(String::class.java) ?: ""
-//                        val hraRecovery = childSnapshot.child("hraRecovery").getValue(Double::class.java) ?: 0.0
-//                        val ia = childSnapshot.child("ia").getValue(Double::class.java) ?: 0.0
-//                        val interestOfComputerAdv = childSnapshot.child("interestOfComputerAdv").getValue(Double::class.java) ?: 0.0
-//                        val lic = childSnapshot.child("lic").getValue(Double::class.java) ?: 0.0
-//                        val mca = childSnapshot.child("mca").getValue(Double::class.java) ?: 0.0
-//                        val nectScl = childSnapshot.child("nectScl").getValue(Double::class.java) ?: 0.0
-//                        val others = childSnapshot.child("others").getValue(Double::class.java) ?: 0.0
-//                        val payRecovery = childSnapshot.child("payRecovery").getValue(Double::class.java) ?: 0.0
-//                        val paySlipMonth = childSnapshot.child("paySlipMonth").getValue(String::class.java) ?: ""
-//                        val taAndDaAdjustment = childSnapshot.child("taAndDaAdjustment").getValue(Double::class.java) ?: 0.0
-//                        val taArrear = childSnapshot.child("taArrear").getValue(Double::class.java) ?: 0.0
-//                        val deductionOthers = childSnapshot.child("deductionOthers").getValue(Double::class.java) ?: 0.0
-//                        val grf = childSnapshot.child("grf").getValue(Double::class.java) ?: 0.0
-//
-//                        // Create a SalaryModel object and add it to the list
-//                        val salaryModel = SalaryDetails(
-//                            email,
-//                            basicPay,
-//                            branch,
-//                            daArrear,
-//                            employeeId,
-//                            employeeName,
-//                            hraRecovery,
-//                            ia,
-//                            interestOfComputerAdv,
-//                            lic,
-//                            mca,
-//                            nectScl,
-//                            others,
-//                            payRecovery,
-//                            paySlipMonth,
-//                            taAndDaAdjustment,
-//                            taArrear,
-//                            deductionOthers,
-//                            grf
-//                            // Add more attributes as needed
-//                        )
-//                        salaryList.add(salaryModel)
-//                    }
+    private fun fetchSalaryData(employeeId: Long, selectedMonth: String) {
+
         mDatabase = FirebaseDatabase
             .getInstance()
             .getReference("17m2SXM94KhBDJ3tdHR3lI4HLOZK6CjHQgzg8Zq_gX9Q")
@@ -98,9 +48,8 @@ class SalarySlip : AppCompatActivity() {
                 var index = 0
 
 
-                if (snapshot.child("EmployeeName").getValue(String::class.java) == "Jenny" &&
-                    snapshot.child("PaySlipMonth").getValue(String::class.java) == "July" &&
-                    snapshot.child("EmailId").getValue(String::class.java) == "jenny.cse.21@nitap.ac.in") {
+                if (snapshot.child("EmployeeName").getValue(String::class.java) == "Rocky" &&
+                    snapshot.child("PaySlipMonth").getValue(String::class.java) == "June" ) {
                     // Fetching Employee Name, Pay Slip Month, and Email-id as the first three items
 
                     salaryList[index++] = SalaryModel(
