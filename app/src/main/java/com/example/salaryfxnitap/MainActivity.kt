@@ -57,8 +57,8 @@ class MainActivity : AppCompatActivity() {
         mainBinding.buttonGenerateSalarySlip.setOnClickListener {
 
             val selectedMonth = spinner.selectedItem.toString()
-            val employeeId = editTextEmployeeId.text.toString()
-                generateSalarySlip(employeeId,selectedMonth)
+            val employeeId = editTextEmployeeId.text.toString().trim()
+            generateSalarySlip(employeeId,selectedMonth)
 
                 // Check if the user exists in the database
 //                val selectedMonth = spinner.selectedItem.toString() // Get the selected month

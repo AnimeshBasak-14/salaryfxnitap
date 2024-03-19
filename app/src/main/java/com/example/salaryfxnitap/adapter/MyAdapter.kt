@@ -21,11 +21,11 @@ class MyAdapter(val salaryList: Array<SalaryModel>)
                     if (position!=RecyclerView.NO_POSITION) {
                         val selectedSalary = salaryList[position]
 
-                        Toast.makeText(
-                            itemView.context,
-                            "You choose: ${selectedSalary.name}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+//                        Toast.makeText(
+//                            itemView.context,
+//                            "You choose: ${selectedSalary.name}",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
                     }
                 }
             }
