@@ -111,9 +111,8 @@ class MainActivity : AppCompatActivity() {
             )
         }
         else {
-            // Handle case when employeeId or selectedMonth is empty or invalid
             Toast.makeText(this@MainActivity,
-                "Empty selected month",
+                "Empty email",
                 Toast.LENGTH_SHORT).show()
         }
     }
