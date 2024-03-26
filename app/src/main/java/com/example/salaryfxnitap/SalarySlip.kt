@@ -1,17 +1,33 @@
 package com.example.salaryfxnitap
 
 
+import android.Manifest
 import android.content.ContentValues.TAG
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.salaryfxnitap.adapter.MyAdapter
 import com.example.salaryfxnitap.model.SalaryModel
 import com.google.firebase.database.*
-
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
+//import android.R
+import android.graphics.pdf.PdfDocument.PageInfo
+import android.view.View
+import android.widget.Button
 
 
 class SalarySlip : AppCompatActivity() {
@@ -19,10 +35,22 @@ class SalarySlip : AppCompatActivity() {
     private lateinit var salaryList: Array<SalaryModel>
     private lateinit var adapter: MyAdapter
     private lateinit var mDatabase: DatabaseReference
+    private val REQUEST_CODE = 1232
+
+    private lateinit var btnCreatePDF: Button
+    private lateinit var btnXmlToPDF: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_salary_slip)
+
+        askPermissions()
+
+
+        btnXmlToPDF = findViewById(R.id.btnXMLToPDF)
+        btnXmlToPDF.setOnClickListener {
+            convertXmlToPdf()
+        }
 
         val eid = intent.getStringExtra("eid").toString()
 
@@ -306,6 +334,74 @@ class SalarySlip : AppCompatActivity() {
         val adapter = MyAdapter(salaryList)
         recyclerView.adapter = adapter
 
+    }
+    private fun askPermissions() {
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), REQUEST_CODE)
+    }
+
+
+
+    private fun convertXmlToPdf() {
+        val inflater = LayoutInflater.from(this)
+        val view = inflater.inflate(R.layout.activity_salary_slip, null)
+
+        val displayMetrics = DisplayMetrics()
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//
+//            displayMetrics.setToRealDisplayMetrics(resources.configuration)
+//        } else {
+//            windowManager.defaultDisplay.getMetrics(displayMetrics)
+//        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            val display = display
+            display?.getRealMetrics(displayMetrics)
+        } else {
+            @Suppress("DEPRECATION")
+            val display = windowManager.defaultDisplay
+            @Suppress("DEPRECATION")
+            display.getMetrics(displayMetrics)
+        }
+
+
+        view.measure(
+            View.MeasureSpec.makeMeasureSpec(displayMetrics.widthPixels, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(displayMetrics.heightPixels, View.MeasureSpec.EXACTLY)
+        )
+
+        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
+
+        val document = PdfDocument()
+
+        val viewWidth = view.measuredWidth
+        val viewHeight = view.measuredHeight
+        Log.d("mylog", "Width Now: $viewWidth")
+        Log.d("mylog", "Height Now: $viewHeight")
+        val pageInfo = PdfDocument.PageInfo.Builder(viewWidth, viewHeight, 1).create()
+
+        val page = document.startPage(pageInfo)
+        val canvas = page.canvas
+
+        val paint = Paint()
+        paint.color = Color.WHITE
+
+        view.draw(canvas)
+        document.finishPage(page)
+
+        val downloadsDir =
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val fileName = "exampleXML.pdf"
+        val filePath = File(downloadsDir, fileName)
+
+        try {
+            val fos = FileOutputStream(filePath)
+            document.writeTo(fos)
+            document.close()
+            fos.close()
+            Toast.makeText(this, "XML to PDF Conversion Successful", Toast.LENGTH_LONG).show()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
     }
 }
 
