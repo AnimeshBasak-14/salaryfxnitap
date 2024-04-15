@@ -4,98 +4,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#4ACDDC39"
+    android:background="#C6EBC5"
     tools:context=".MainActivity">
-
 
 
     <TextView
         android:id="@+id/textViewMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="80dp"
-        android:text="Month:"
+        android:layout_marginStart="68dp"
+        android:text="Month"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/month_spinner"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/buttonGenerateSalarySlip"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.337" />
 
     <Spinner
         android:id="@+id/month_spinner"
         android:layout_width="227dp"
         android:layout_height="61dp"
+        android:layout_marginTop="76dp"
         android:spinnerMode="dialog"
-        app:layout_constraintBottom_toTopOf="@+id/editTextEmployeeId"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.896"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.7" />
-
-    <TextView
-        android:id="@+id/textViewEmployeeId"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Employee ID:"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/buttonGenerateSalarySlip"
-        app:layout_constraintEnd_toStartOf="@+id/editTextEmployeeId"
-        app:layout_constraintHorizontal_bias="0.529"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewMonth"
-        app:layout_constraintVertical_bias="0.275" />
-
-    <EditText
-        android:id="@+id/editTextEmployeeId"
-        android:layout_width="224dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/enter_employee_id"
-        android:inputType="text"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.898"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.206" />
+        app:layout_constraintHorizontal_bias="0.431"
+        app:layout_constraintStart_toEndOf="@+id/textViewMonth"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/buttonGenerateSalarySlip"
         android:layout_width="226dp"
         android:layout_height="59dp"
-        android:layout_marginTop="92dp"
+        android:layout_marginTop="160dp"
         android:text="Generate SalarySlip"
+        android:textColor="#000"
+        android:background="#A3C9AA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.416"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextEmployeeId" />
+        app:layout_constraintTop_toBottomOf="@+id/month_spinner"
+        app:rippleColor="#A1C398" />
 
     <Button
         android:id="@+id/buttonSignOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sign Out"
+        android:textColor="#000"
+        android:background="#A3C9AA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
+        app:layout_constraintHorizontal_bias="0.441"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonGenerateSalarySlip" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonGenerateSalarySlip"
+        app:layout_constraintVertical_bias="0.279" />
 
     <TextView
         android:id="@+id/textViewNotice"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="@color/orange"
+        android:background="#FEFDED"
         android:padding="6dp"
+        android:textAlignment="center"
         android:text="Notice: Salary slip of every month can be obtained after the 5th Day of the month!!"
         android:textColor="#0B0909"
         android:textSize="20sp"
         android:textStyle="bold"
+
         app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,9 +85,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.426"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonSignOut"
-        app:layout_constraintVertical_bias="0.744" />
+        app:layout_constraintVertical_bias="0.743" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
