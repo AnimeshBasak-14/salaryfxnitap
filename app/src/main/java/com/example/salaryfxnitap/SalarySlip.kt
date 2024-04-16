@@ -41,10 +41,9 @@ class SalarySlip : AppCompatActivity() {
 
         askPermissions()
 
-        btnPDF = findViewById(R.id.btnPDF)
-        btnPDF.setOnClickListener {
-            convertPdf()
-        }
+//        btnPDF = findViewById(R.id.btnPDF)
+//        btnPDF.setOnClickListener {
+//            convertPdf() }
 
         val eid = intent.getStringExtra("eid").toString()
 
