@@ -1,17 +1,17 @@
 package com.example.salaryfxnitap
 
 
+//import android.R
 import android.Manifest
+import android.R.attr.name
 import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -24,10 +24,6 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-//import android.R
-import android.graphics.pdf.PdfDocument.PageInfo
-import android.view.View
-import android.widget.Button
 
 
 class SalarySlip : AppCompatActivity() {
@@ -37,8 +33,7 @@ class SalarySlip : AppCompatActivity() {
     private lateinit var mDatabase: DatabaseReference
     private val REQUEST_CODE = 1232
 
-    private lateinit var btnCreatePDF: Button
-    private lateinit var btnXmlToPDF: Button
+    private lateinit var btnPDF: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,10 +41,9 @@ class SalarySlip : AppCompatActivity() {
 
         askPermissions()
 
-
-        btnXmlToPDF = findViewById(R.id.btnXMLToPDF)
-        btnXmlToPDF.setOnClickListener {
-            convertXmlToPdf()
+        btnPDF = findViewById(R.id.btnPDF)
+        btnPDF.setOnClickListener {
+            convertPdf()
         }
 
         val eid = intent.getStringExtra("eid").toString()
@@ -341,68 +335,40 @@ class SalarySlip : AppCompatActivity() {
 
 
 
-    private fun convertXmlToPdf() {
-        val inflater = LayoutInflater.from(this)
-        val view = inflater.inflate(R.layout.activity_salary_slip, null)
+    private fun convertPdf() {
 
-        val displayMetrics = DisplayMetrics()
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//
-//            displayMetrics.setToRealDisplayMetrics(resources.configuration)
-//        } else {
-//            windowManager.defaultDisplay.getMetrics(displayMetrics)
-//        }
+        val doc = PdfDocument()
+        val pageInfo = PdfDocument.PageInfo.Builder(1080, 1920, 1).create()
+        val page = doc.startPage(pageInfo)
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
-            val display = display
-            display?.getRealMetrics(displayMetrics)
-        } else {
-            @Suppress("DEPRECATION")
-            val display = windowManager.defaultDisplay
-            @Suppress("DEPRECATION")
-            display.getMetrics(displayMetrics)
-        }
-
-
-        view.measure(
-            View.MeasureSpec.makeMeasureSpec(displayMetrics.widthPixels, View.MeasureSpec.EXACTLY),
-            View.MeasureSpec.makeMeasureSpec(displayMetrics.heightPixels, View.MeasureSpec.EXACTLY)
-        )
-
-        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
-
-        val document = PdfDocument()
-
-        val viewWidth = view.measuredWidth
-        val viewHeight = view.measuredHeight
-        Log.d("mylog", "Width Now: $viewWidth")
-        Log.d("mylog", "Height Now: $viewHeight")
-        val pageInfo = PdfDocument.PageInfo.Builder(viewWidth, viewHeight, 1).create()
-
-        val page = document.startPage(pageInfo)
         val canvas = page.canvas
 
         val paint = Paint()
-        paint.color = Color.WHITE
+        paint.color = Color.RED
+        paint.textSize = 42f
+        val text = "HEllo WOrld"
 
-        view.draw(canvas)
-        document.finishPage(page)
 
-        val downloadsDir =
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        val fileName = "exampleXML.pdf"
-        val filePath = File(downloadsDir, fileName)
-
+        val x = 100
+        val y = 100
+        canvas.drawText(text, x.toFloat(), y.toFloat(),paint)
+        doc.finishPage(page)
+        val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val fileName ="example.pdf"
+        val file = File(downloadDir, fileName)
         try {
-            val fos = FileOutputStream(filePath)
-            document.writeTo(fos)
-            document.close()
+            val fos = FileOutputStream(file)
+            doc.writeTo(fos)
+            doc.close()
             fos.close()
-            Toast.makeText(this, "XML to PDF Conversion Successful", Toast.LENGTH_LONG).show()
+        } catch (e: FileNotFoundException) {
+            Log.d("my log", "Error while writing $e")
+            throw RuntimeException(e)
         } catch (e: IOException) {
-            e.printStackTrace()
+            throw RuntimeException(e)
         }
     }
+
 }
 
 
