@@ -72,7 +72,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="#FEFDED"
+        android:background="#F44336"
         android:padding="6dp"
         android:textAlignment="center"
         android:text="Notice: Salary slip of every month can be obtained after the 5th Day of the month!!"

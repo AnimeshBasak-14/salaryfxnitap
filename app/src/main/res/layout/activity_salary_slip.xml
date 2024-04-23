@@ -25,7 +25,7 @@
             android:layout_width="331dp"
             android:layout_height="95dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/nitap" />
+            android:src="@drawable/img_3" />
 
         <TextView
             android:id="@+id/NITNAME"
